@@ -1,0 +1,28 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+.goods{
+    width: 1320px;
+    height: 300px;
+    background: aliceblue;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.box{
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.box:nth-child(1){
+    cursor: default;
+}
+
+.box:nth-child(1):hover{
+    transform: scale(1.1);
+}
