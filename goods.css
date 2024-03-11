@@ -20,6 +20,11 @@
     background-color: beige;
 }
 
+.product{
+    width: 100%;
+    display: flex;
+}
+
 .card{
     margin: 20px;
     width: 250px;
@@ -32,6 +37,7 @@
 .imgBox{
     width: 250px;
     height: 200px;
+    border-bottom: 1px solid lightblue;
 }
 
 .imgBox img{
