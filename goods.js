@@ -30,6 +30,28 @@ data.forEach((a, i)=>{
     $('.product').append(템플릿)
 })
 
+$('#price').click(function(){
+    data.sort(function(a,b){
+        return parseInt(a.price.replace(',', ''), 10) - parseInt(b.price.replace(',', ''), 10);
+    });
+
+    $('.product').html('');
+
+    data.forEach((a, i)=>{
+        var 템플릿 = `<div class="card">
+        <div class="imgBox">
+            <img src=${data[i].img} alt="">
+        </div>
+        <div class="textBox">
+            <h2> ${data[i].title}</h2>
+            <p>판매량 : ${data[i].sale}</p>
+            <p>그룹 : ${data[i].group}</p>
+            <button>가격 : ${data[i].price}</button>
+        </div>`
+    
+        $('.product').append(템플릿)
+    })
+});
 
 $('#sale').click(function(){
     data.sort(function(a,b){
@@ -76,3 +98,4 @@ $('#sale2').click(function(){
         $('.product').append(템플릿)
     })
 });
+
