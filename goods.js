@@ -11,6 +11,10 @@ var data = [
     {idx: 10, img: "goods/10.jpg", sale: 7267, title: "체육복바지", price: "10,000", group: "의류"}
     ]
 
+data.sort(function(a,b){
+        return b.sale - a.sale;
+});
+
 data.forEach((a, i)=>{
     var 템플릿 = `<div class="card">
     <div class="imgBox">
@@ -18,7 +22,7 @@ data.forEach((a, i)=>{
     </div>
     <div class="textBox">
         <h2> ${data[i].title}</h2>
-        <p>할인 : ${data[i].sale}</p>
+        <p>판매량 : ${data[i].sale}</p>
         <p>그룹 : ${data[i].group}</p>
         <button>가격 : ${data[i].price}</button>
     </div>`
@@ -26,8 +30,49 @@ data.forEach((a, i)=>{
     $('.product').append(템플릿)
 })
 
-$('#pirce').click(function(){
+
+$('#sale').click(function(){
     data.sort(function(a,b){
-        return a.price - b.price
+        return a.sale - b.sale;
     });
+
+    $('.product').html('');
+
+    data.forEach((a, i)=>{
+        var 템플릿 = `<div class="card">
+        <div class="imgBox">
+            <img src=${data[i].img} alt="">
+        </div>
+        <div class="textBox">
+            <h2> ${data[i].title}</h2>
+            <p>판매량 : ${data[i].sale}</p>
+            <p>그룹 : ${data[i].group}</p>
+            <button>가격 : ${data[i].price}</button>
+        </div>`
+    
+        $('.product').append(템플릿)
+    })
+});
+
+$('#sale2').click(function(){
+    data.sort(function(a,b){
+        return b.sale - a.sale;
+    });
+
+    $('.product').html('');
+
+    data.forEach((a, i)=>{
+        var 템플릿 = `<div class="card">
+        <div class="imgBox">
+            <img src=${data[i].img} alt="">
+        </div>
+        <div class="textBox">
+            <h2> ${data[i].title}</h2>
+            <p>판매량 : ${data[i].sale}</p>
+            <p>그룹 : ${data[i].group}</p>
+            <button>가격 : ${data[i].price}</button>
+        </div>`
+    
+        $('.product').append(템플릿)
+    })
 });
