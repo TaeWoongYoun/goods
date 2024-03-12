@@ -9,7 +9,7 @@ var data = [
     {idx: 8, img: "goods/08.jpg", sale: 1484, title: "모자", price: "7,500", group: "의류"},
     {idx: 9, img: "goods/09.jpg", sale: 54267, title: "세트", price: "115,500", group: "야구용품"},
     {idx: 10, img: "goods/10.jpg", sale: 7267, title: "체육복바지", price: "10,000", group: "의류"}
-    ]
+]
 
 data.sort(function(a,b){
         return b.sale - a.sale;
@@ -97,5 +97,26 @@ $('#sale2').click(function(){
     
         $('.product').append(템플릿)
     })
+});
+
+var groupsSet = new Set(data.map(item => item.group));
+var groupsArray = Array.from(groupsSet);
+
+// 요소 가져오기
+var groupListButton = document.getElementById("groupListButton");
+var groupSelect = document.getElementById("groupSelect");
+
+// 셀렉트 박스에 옵션 추가
+groupsArray.forEach(group => {
+    var option = document.createElement("option");
+    option.value = group;
+    option.text = group;
+    groupSelect.add(option);
+});
+
+// 버튼 클릭 이벤트 리스너
+groupListButton.addEventListener("click", function() {
+    var selectedGroup = groupSelect.value;
+    console.log("선택된 그룹: " + selectedGroup);
 });
 
