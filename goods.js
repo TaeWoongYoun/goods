@@ -99,24 +99,72 @@ $('#sale2').click(function(){
     })
 });
 
+// 고유 그룹 추출
 var groupsSet = new Set(data.map(item => item.group));
 var groupsArray = Array.from(groupsSet);
 
 // 요소 가져오기
-var groupListButton = document.getElementById("groupListButton");
-var groupSelect = document.getElementById("groupSelect");
+var groupSelect = $("#groupSelect");
+var productContainer = $(".product");
 
 // 셀렉트 박스에 옵션 추가
 groupsArray.forEach(group => {
-    var option = document.createElement("option");
-    option.value = group;
-    option.text = group;
-    groupSelect.add(option);
+    var option = $("<option></option>").val(group).text(group);
+    groupSelect.append(option);
 });
 
 // 버튼 클릭 이벤트 리스너
-groupListButton.addEventListener("click", function() {
-    var selectedGroup = groupSelect.value;
-    console.log("선택된 그룹: " + selectedGroup);
+groupSelect.on("change", function() {
+    var selectedGroup = $(this).val();
+    filterAndDisplayCards(selectedGroup);
 });
 
+// 초기 로딩 시 모든 카드 보이기
+displayAllCards();
+
+// 카드 필터링 함수
+function filterAndDisplayCards(selectedGroup) {
+    productContainer.empty(); // 기존 카드 삭제
+
+    // 선택된 그룹에 해당하는 데이터 필터링
+    var filteredData = data;
+    if (selectedGroup) {
+        filteredData = data.filter(item => item.group === selectedGroup);
+    }
+
+    // 필터된 데이터로 카드 생성 및 보이기
+    filteredData.forEach(item => {
+        var template = `
+            <div class="card">
+                <div class="imgBox">
+                    <img src="${item.img}" alt="">
+                </div>
+                <div class="textBox">
+                    <h2>${item.title}</h2>
+                    <p>판매량: ${item.sale}</p>
+                    <p>그룹: ${item.group}</p>
+                    <button>가격: ${item.price}</button>
+                </div>
+            </div>`;
+        productContainer.append(template);
+    });
+}
+
+// 모든 카드 보이기
+function displayAllCards() {
+    data.forEach(item => {
+        var template = `
+            <div class="card">
+                <div class="imgBox">
+                    <img src="${item.img}" alt="">
+                </div>
+                <div class="textBox">
+                    <h2>${item.title}</h2>
+                    <p>판매량: ${item.sale}</p>
+                    <p>그룹: ${item.group}</p>
+                    <button>가격: ${item.price}</button>
+                </div>
+            </div>`;
+        productContainer.append(template);
+    });
+}
