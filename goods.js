@@ -9,162 +9,58 @@ var data = [
     {idx: 8, img: "goods/08.jpg", sale: 1484, title: "모자", price: "7,500", group: "의류"},
     {idx: 9, img: "goods/09.jpg", sale: 54267, title: "세트", price: "115,500", group: "야구용품"},
     {idx: 10, img: "goods/10.jpg", sale: 7267, title: "체육복바지", price: "10,000", group: "의류"}
-]
+];
 
-data.sort(function(a,b){
-        return b.sale - a.sale;
+function displayProducts(products) {
+    $('.product').empty(); // 기존 상품 카드 삭제
+    products.forEach(product => {
+        var template = `
+            <div class="card">
+                <div class="imgBox">
+                    <img src="${product.img}" alt="">
+                </div>
+                <div class="textBox">
+                    <h2>${product.title}</h2>
+                    <p>판매량: ${product.sale}</p>
+                    <p>그룹: ${product.group}</p>
+                    <button>가격: ${product.price}</button>
+                </div>
+            </div>`;
+        $('.product').append(template);
+    });
+}
+
+// 초기 로딩 시 모든 상품 보이기
+displayProducts(data);
+
+$('#price').click(function() {
+    data.sort((a, b) => parseInt(a.price.replace(',', ''), 10) - parseInt(b.price.replace(',', ''), 10));
+    displayProducts(data);
 });
 
-data.forEach((a, i)=>{
-    var 템플릿 = `<div class="card">
-    <div class="imgBox">
-        <img src=${data[i].img} alt="">
-    </div>
-    <div class="textBox">
-        <h2> ${data[i].title}</h2>
-        <p>판매량 : ${data[i].sale}</p>
-        <p>그룹 : ${data[i].group}</p>
-        <button>가격 : ${data[i].price}</button>
-    </div>`
-
-    $('.product').append(템플릿)
-})
-
-$('#price').click(function(){
-    data.sort(function(a,b){
-        return parseInt(a.price.replace(',', ''), 10) - parseInt(b.price.replace(',', ''), 10);
-    });
-
-    $('.product').html('');
-
-    data.forEach((a, i)=>{
-        var 템플릿 = `<div class="card">
-        <div class="imgBox">
-            <img src=${data[i].img} alt="">
-        </div>
-        <div class="textBox">
-            <h2> ${data[i].title}</h2>
-            <p>판매량 : ${data[i].sale}</p>
-            <p>그룹 : ${data[i].group}</p>
-            <button>가격 : ${data[i].price}</button>
-        </div>`
-    
-        $('.product').append(템플릿)
-    })
+$('#sale').click(function() {
+    data.sort((a, b) => a.sale - b.sale);
+    displayProducts(data);
 });
 
-$('#sale').click(function(){
-    data.sort(function(a,b){
-        return a.sale - b.sale;
-    });
-
-    $('.product').html('');
-
-    data.forEach((a, i)=>{
-        var 템플릿 = `<div class="card">
-        <div class="imgBox">
-            <img src=${data[i].img} alt="">
-        </div>
-        <div class="textBox">
-            <h2> ${data[i].title}</h2>
-            <p>판매량 : ${data[i].sale}</p>
-            <p>그룹 : ${data[i].group}</p>
-            <button>가격 : ${data[i].price}</button>
-        </div>`
-    
-        $('.product').append(템플릿)
-    })
-});
-
-$('#sale2').click(function(){
-    data.sort(function(a,b){
-        return b.sale - a.sale;
-    });
-
-    $('.product').html('');
-
-    data.forEach((a, i)=>{
-        var 템플릿 = `<div class="card">
-        <div class="imgBox">
-            <img src=${data[i].img} alt="">
-        </div>
-        <div class="textBox">
-            <h2> ${data[i].title}</h2>
-            <p>판매량 : ${data[i].sale}</p>
-            <p>그룹 : ${data[i].group}</p>
-            <button>가격 : ${data[i].price}</button>
-        </div>`
-    
-        $('.product').append(템플릿)
-    })
+$('#sale2').click(function() {
+    data.sort((a, b) => b.sale - a.sale);
+    displayProducts(data);
 });
 
 // 고유 그룹 추출
 var groupsSet = new Set(data.map(item => item.group));
 var groupsArray = Array.from(groupsSet);
 
-// 요소 가져오기
-var groupSelect = $("#groupSelect");
-var productContainer = $(".product");
-
 // 셀렉트 박스에 옵션 추가
 groupsArray.forEach(group => {
     var option = $("<option></option>").val(group).text(group);
-    groupSelect.append(option);
+    $("#groupSelect").append(option);
 });
 
-// 버튼 클릭 이벤트 리스너
-groupSelect.on("change", function() {
+// 셀렉트 박스 변경 이벤트 리스너
+$('#groupSelect').change(function() {
     var selectedGroup = $(this).val();
-    filterAndDisplayCards(selectedGroup);
+    var filteredData = selectedGroup ? data.filter(item => item.group === selectedGroup) : data;
+    displayProducts(filteredData);
 });
-
-// 초기 로딩 시 모든 카드 보이기
-displayAllCards();
-
-// 카드 필터링 함수
-function filterAndDisplayCards(selectedGroup) {
-    productContainer.empty(); // 기존 카드 삭제
-
-    // 선택된 그룹에 해당하는 데이터 필터링
-    var filteredData = data;
-    if (selectedGroup) {
-        filteredData = data.filter(item => item.group === selectedGroup);
-    }
-
-    // 필터된 데이터로 카드 생성 및 보이기
-    filteredData.forEach(item => {
-        var template = `
-            <div class="card">
-                <div class="imgBox">
-                    <img src="${item.img}" alt="">
-                </div>
-                <div class="textBox">
-                    <h2>${item.title}</h2>
-                    <p>판매량: ${item.sale}</p>
-                    <p>그룹: ${item.group}</p>
-                    <button>가격: ${item.price}</button>
-                </div>
-            </div>`;
-        productContainer.append(template);
-    });
-}
-
-// 모든 카드 보이기
-function displayAllCards() {
-    data.forEach(item => {
-        var template = `
-            <div class="card">
-                <div class="imgBox">
-                    <img src="${item.img}" alt="">
-                </div>
-                <div class="textBox">
-                    <h2>${item.title}</h2>
-                    <p>판매량: ${item.sale}</p>
-                    <p>그룹: ${item.group}</p>
-                    <button>가격: ${item.price}</button>
-                </div>
-            </div>`;
-        productContainer.append(template);
-    });
-}
