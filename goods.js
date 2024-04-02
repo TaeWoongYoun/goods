@@ -52,7 +52,7 @@ $('#sale2').click(function() {
 var groupsSet = new Set(data.map(item => item.group));
 var groupsArray = Array.from(groupsSet);
 
-// 셀렉트 박스에 옵션 추가
+// 셀렉트 박스에 옵션 추가 
 groupsArray.forEach(group => {
     var option = $("<option></option>").val(group).text(group);
     $("#groupSelect").append(option);
